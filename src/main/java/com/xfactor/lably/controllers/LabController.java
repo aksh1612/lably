@@ -15,74 +15,33 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/test")
-public class TestController {
+@RequestMapping("/lab")
+public class LabController {
 
-    ArrayList<Lab> labs = new ArrayList<>();
-
-    // @RequestMapping(method = RequestMethod.GET)
-    @GetMapping
-    public String hello() {
-        return "Greetings from XFACTOR!!!";
-    }
-
-    @GetMapping("/hello/{name}")
-    public String helloName(@PathVariable String name) {
-        return "Greetings from " + name + "!!!";
-    }
-
-    @GetMapping("/hello2")
-    public String helloName2(@RequestParam String name, @RequestParam String age) {
-        return "Greetings from hello2 " + name + "!!!" + age;
-    }
-
-    @GetMapping("/hello3")
-    public Map<String, String> helloName3(@RequestParam String name, @RequestParam String age) {
-        Map<String, String> respoMap = new HashMap<>();
-        respoMap.put("name", name);
-        respoMap.put("age", age);
-        return respoMap;
-    }
-
-    @GetMapping("/hello4")
-    public ArrayList helloName4(@RequestParam String name, @RequestParam String age) {
-        ArrayList arrayList = new ArrayList<>();
-        arrayList.add(name);
-        arrayList.add(age);
-        return arrayList;
-    }
-
-    @GetMapping("/getLabs")
-    public ArrayList<Lab> getLabs() {
-        return labs;
-    }
+    ArrayList<Lab> labs= new ArrayList<>();
 
     @PostMapping("/addLab")
-    public Lab addLab(@RequestBody Lab lab) {
-        String name = lab.getName();
-        name = "Hello " + name;
-        lab.setName(name);
+    public Lab addLabPost(@RequestBody Lab lab) {
         labs.add(lab);
         return lab;
     }
 
-    // // http://localhost:8080/test/hello/xfactor
-    // @GetMapping("/hello/{name}")
-    // @ResponseBody
-    // public String index_greetings(@PathVariable String name) {
-    // return "Greetings :" + name;
-    // }
+    @GetMapping("/getLabs")
+    public ArrayList<Lab> getLabs(){
+        return labs;
+    } 
 
-    // // http://localhost:8080/test/hello2?id=16
-    // @GetMapping("/hello2")
-    // @ResponseBody
-    // public String getFoos(@RequestParam String id) {
-    // return "ID: " + id;
-    // }
+    @GetMapping("/getLabByName")
+    public Lab getLabByName(@RequestParam String name) {
+        Lab resLab = null;
+        for(Lab lab : labs){
+            if(lab.getName().equalsIgnoreCase(name)) {
+            resLab=lab;
+            }
+        }
+        return resLab;
 
-    // @PostMapping("/employees")
-    // Employee newEmployee(@RequestBody Employee newEmployee) {
-    // return repository.save(newEmployee);
-    // }
+    }
 
+    
 }
